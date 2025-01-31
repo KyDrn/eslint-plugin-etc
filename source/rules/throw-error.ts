@@ -49,6 +49,7 @@ const rule = ruleCreator({
         }
         checkRejection(getParent(node) as es.CallExpression);
       },
+      // eslint-disable-next-line max-len
       "NewExpression[callee.name='Promise'] > ArrowFunctionExpression, NewExpression[callee.name='Promise'] > FunctionExpression":
         (node: es.ArrowFunctionExpression | es.FunctionExpression) => {
           const [, param] = node.params;
@@ -87,4 +88,4 @@ const rule = ruleCreator({
   },
 });
 
-export = rule;
+export default rule;

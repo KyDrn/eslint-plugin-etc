@@ -5,8 +5,8 @@
 
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/no-const-enum");
 import { ruleTester } from "../utils";
+import rule from "../../source/rules/no-const-enum";
 
 ruleTester({ types: true }).run("no-const-enum", rule, {
   valid: [
@@ -27,13 +27,13 @@ ruleTester({ types: true }).run("no-const-enum", rule, {
       stripIndent`
         const enum Numbers { one = 1 };
                    ~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
         export const enum Numbers { one = 1 };
                           ~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -46,7 +46,7 @@ ruleTester({ types: true }).run("no-const-enum", rule, {
             allowLocal: false,
           },
         ],
-      }
+      },
     ),
   ],
 });

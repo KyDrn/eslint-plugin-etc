@@ -5,14 +5,14 @@
 
 import { TSESTree as es } from "@typescript-eslint/experimental-utils";
 import { getParent, getParserServices } from "eslint-etc";
-import * as ts from "typescript";
+import { Program, Identifier } from "typescript";
 import { findTaggedNames } from "../tag";
 import { getTags, isDeclaration } from "../tslint-tag";
 import { ruleCreator } from "../utils";
 
 // https://api-extractor.com/pages/tsdoc/tag_internal/
 
-const internalNamesByProgram = new WeakMap<ts.Program, Set<string>>();
+const internalNamesByProgram = new WeakMap<Program, Set<string>>();
 
 const defaultOptions: readonly {
   ignored?: Record<string, string>;
@@ -57,9 +57,10 @@ const rule = ruleCreator({
           break;
       }
     });
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const { esTreeNodeToTSNodeMap, program } = getParserServices(context);
     const typeChecker = program.getTypeChecker();
-    const getPath = (identifier: ts.Identifier) => {
+    const getPath = (identifier: Identifier) => {
       const type = typeChecker.getTypeAtLocation(identifier);
       return typeChecker.getFullyQualifiedName(type.symbol);
     };
@@ -79,7 +80,7 @@ const rule = ruleCreator({
           default:
             break;
         }
-        const identifier = esTreeNodeToTSNodeMap.get(node) as ts.Identifier;
+        const identifier = esTreeNodeToTSNodeMap.get(node) as Identifier;
         if (!internalNames?.has(identifier.text)) {
           return;
         }
@@ -110,4 +111,4 @@ const rule = ruleCreator({
   },
 });
 
-export = rule;
+export default rule;

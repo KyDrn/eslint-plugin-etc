@@ -5,8 +5,8 @@
 
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/no-t");
 import { ruleTester } from "../utils";
+import rule from "../../source/rules/no-t";
 
 ruleTester({ types: true }).run("no-t", rule, {
   valid: [
@@ -23,14 +23,14 @@ ruleTester({ types: true }).run("no-t", rule, {
       stripIndent`
         type Thing<T> = { value: T };
                    ~ [forbidden { "name": "T" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
         type Thing<Value> = { value: Value };
                    ~~~~~ [prefix { "name": "Value", "prefix": "T" }]
       `,
-      { options: [{ prefix: "T" }] }
+      { options: [{ prefix: "T" }] },
     ),
   ],
 });

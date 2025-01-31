@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * @license Use of this source code is governed by an MIT-style license that
  * can be found in the LICENSE file at https://github.com/cartant/eslint-plugin-etc
@@ -6,8 +7,8 @@
 
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/no-misused-generics");
 import { ruleTester } from "../utils";
+import rule from "../../source/rules/no-misused-generics";
 
 ruleTester({ types: true }).run("no-misused-generics", rule, {
   valid: [

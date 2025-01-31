@@ -5,8 +5,8 @@
 
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/no-deprecated");
 import { ruleTester } from "../utils";
+import rule from "../../source/rules/no-deprecated";
 
 ruleTester({ comments: true, types: true }).run("no-deprecated", rule, {
   valid: [
@@ -156,7 +156,7 @@ ruleTester({ comments: true, types: true }).run("no-deprecated", rule, {
         import { DeprecatedInterface } from "./modules/deprecated";
         let a: DeprecatedInterface;
                ~~~~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "DeprecatedInterface" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -166,7 +166,7 @@ ruleTester({ comments: true, types: true }).run("no-deprecated", rule, {
                ~~~~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "DeprecatedInterface" }]
         let b: DeprecatedInterface;
                ~~~~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "DeprecatedInterface" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -174,7 +174,7 @@ ruleTester({ comments: true, types: true }).run("no-deprecated", rule, {
         import { DeprecatedType } from "./modules/deprecated";
         let a: DeprecatedType;
                ~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "DeprecatedType" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -182,7 +182,7 @@ ruleTester({ comments: true, types: true }).run("no-deprecated", rule, {
         import { DeprecatedClass } from "./modules/deprecated";
         let a: DeprecatedClass;
                ~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "DeprecatedClass" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -190,7 +190,7 @@ ruleTester({ comments: true, types: true }).run("no-deprecated", rule, {
         import { DeprecatedClass } from "./modules/deprecated";
         let a = new DeprecatedClass();
                     ~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "DeprecatedClass" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -198,7 +198,7 @@ ruleTester({ comments: true, types: true }).run("no-deprecated", rule, {
         import { DeprecatedEnum } from "./modules/deprecated";
         let a: DeprecatedEnum;
                ~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "DeprecatedEnum" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -206,7 +206,7 @@ ruleTester({ comments: true, types: true }).run("no-deprecated", rule, {
         import { deprecatedVariable } from "./modules/deprecated";
         let a = deprecatedVariable;
                 ~~~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "deprecatedVariable" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -214,7 +214,7 @@ ruleTester({ comments: true, types: true }).run("no-deprecated", rule, {
         import { deprecatedFunction } from "./modules/deprecated";
         deprecatedFunction();
         ~~~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "deprecatedFunction" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -225,7 +225,7 @@ ruleTester({ comments: true, types: true }).run("no-deprecated", rule, {
                       ~~~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "deprecatedProperty" }]
         a.deprecatedMethod();
           ~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "deprecatedMethod" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -236,14 +236,14 @@ ruleTester({ comments: true, types: true }).run("no-deprecated", rule, {
                       ~~~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "deprecatedProperty" }]
         a.deprecatedMethod();
           ~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "deprecatedMethod" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
         // Some deprecated class
         import { SomeDeprecatedClass } from "./modules/deprecated";
         SomeDeprecatedClass.deprecatedStaticMethod();
-                            ~~~~~~~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "deprecatedStaticMethod" }]
+                    ~~~~~~~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "deprecatedStaticMethod" }]
         let a: SomeDeprecatedClass;
         console.log(a.deprecatedProperty);
                       ~~~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "deprecatedProperty" }]
@@ -253,7 +253,7 @@ ruleTester({ comments: true, types: true }).run("no-deprecated", rule, {
           ~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "deprecatedSetter" }]
         a.deprecatedMethod();
           ~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "deprecatedMethod" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -262,18 +262,18 @@ ruleTester({ comments: true, types: true }).run("no-deprecated", rule, {
         let a: SomeDeprecatedEnum;
         a = SomeDeprecatedEnum.DeprecatedMember;
                                ~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "DeprecatedMember" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
         // Some signatures deprecated class
         import { DeprecatedSignatureClass } from "./modules/deprecated";
         DeprecatedSignatureClass.deprecatedSignatureStaticMethod("42");
-                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "deprecatedSignatureStaticMethod" }]
+                  ~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "deprecatedSignatureStaticMethod" }]
         let a: DeprecatedSignatureClass;
         a.deprecatedSignatureMethod("42");
           ~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "deprecatedSignatureMethod" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -281,15 +281,15 @@ ruleTester({ comments: true, types: true }).run("no-deprecated", rule, {
         import { deprecatedSignatureFunction } from "./modules/deprecated";
         deprecatedSignatureFunction("42");
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "deprecatedSignatureFunction" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
         // Deprecated constructor
         import { DeprecatedConstructorSignatureClass } from "./modules/deprecated";
         let a = new DeprecatedConstructorSignatureClass("42");
-                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "DeprecatedConstructorSignatureClass" }]
-      `
+        ~~~~~~~~~~~~~~~~~~~~ [forbidden { "comment": "Don't use this", "name": "DeprecatedConstructorSignatureClass" }]
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -306,7 +306,7 @@ ruleTester({ comments: true, types: true }).run("no-deprecated", rule, {
             },
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -323,7 +323,7 @@ ruleTester({ comments: true, types: true }).run("no-deprecated", rule, {
             },
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -336,7 +336,7 @@ ruleTester({ comments: true, types: true }).run("no-deprecated", rule, {
         declare function func(): void;
         func();
         ~~~~ [forbidden { "comment": "Don't use this function", "name": "func" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -347,7 +347,7 @@ ruleTester({ comments: true, types: true }).run("no-deprecated", rule, {
         declare function func(): void;
         func();
         ~~~~ [forbidden { "comment": "Don't use this function", "name": "func" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -360,7 +360,7 @@ ruleTester({ comments: true, types: true }).run("no-deprecated", rule, {
         func();
         ~~~~ [forbidden { "comment": "This function is slow", "name": "func" }]
         ~~~~ [forbidden { "comment": "This function is buggy", "name": "func" }]
-      `
+      `,
     ),
   ],
 });

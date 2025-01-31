@@ -5,7 +5,7 @@
 
 import { TSESTree as es } from "@typescript-eslint/experimental-utils";
 import { getLoc, getParserServices } from "eslint-etc";
-import * as ts from "typescript";
+import { EnumDeclaration } from "typescript";
 import { ruleCreator } from "../utils";
 
 const rule = ruleCreator({
@@ -26,10 +26,11 @@ const rule = ruleCreator({
   name: "no-enum",
   create: (context) => ({
     TSEnumDeclaration: (node: es.Node) => {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       const { esTreeNodeToTSNodeMap } = getParserServices(context);
       const enumDeclaration = esTreeNodeToTSNodeMap.get(
         node
-      ) as ts.EnumDeclaration;
+      ) as EnumDeclaration;
       context.report({
         messageId: "forbidden",
         loc: getLoc(enumDeclaration.name),
@@ -38,4 +39,4 @@ const rule = ruleCreator({
   }),
 });
 
-export = rule;
+export default rule;

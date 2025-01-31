@@ -57,4 +57,4 @@ const rule = ruleCreator({
   },
 });
 
-export = rule;
+export default rule;

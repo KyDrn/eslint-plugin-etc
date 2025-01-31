@@ -5,8 +5,8 @@
 
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/throw-error");
 import { ruleTester } from "../utils";
+import rule from "../../source/rules/throw-error";
 
 ruleTester({ types: true }).run("throw-error", rule, {
   valid: [
@@ -108,7 +108,7 @@ ruleTester({ types: true }).run("throw-error", rule, {
         function b(error: any): never {
           throw error;
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -118,10 +118,10 @@ ruleTester({ types: true }).run("throw-error", rule, {
         export const b = new Promise((resolve, reject) => reject("kaboom"));
                                                                  ~~~~~~~~ [forbidden { "usage": "Rejecting with" }]
         export const c = new Promise(function (resolve, reject) { reject("kaboom"); });
-                                                                         ~~~~~~~~ [forbidden { "usage": "Rejecting with" }]
+                                                                    ~~~~~~~~ [forbidden { "usage": "Rejecting with" }]
         export const d = new Promise(function func(resolve, reject) { reject("kaboom"); });
-                                                                             ~~~~~~~~ [forbidden { "usage": "Rejecting with" }]
-      `
+                                                                    ~~~~~~~~ [forbidden { "usage": "Rejecting with" }]
+      `,
     ),
   ],
 });

@@ -3,7 +3,7 @@
  * can be found in the LICENSE file at https://github.com/cartant/eslint-plugin-etc
  */
 
-export = {
+export default {
   plugins: ["etc"],
   rules: {
     "etc/no-assign-mutated-array": "error",

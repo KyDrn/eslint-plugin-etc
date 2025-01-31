@@ -1,0 +1,72 @@
+root: true
+
+parser: "@typescript-eslint/parser"
+parserOptions:
+  ecmaVersion: latest
+  project: tsconfig(.*)?.json
+  sourceType: module
+
+env:
+  node: true
+
+settings:
+  import/resolver:
+    typescript: {}
+
+plugins:
+  - "@typescript-eslint"
+  - import
+  - simple-import-sort
+  - unused-imports
+  - prettier
+
+ignorePatterns: 
+  - "!**/*"
+
+rules:
+  new-cap: off
+  max-statements: off
+  max-params: off
+  no-undef-init: off
+  max-classes-per-file: off
+  new-line-after-import: off
+
+  "max-len":
+    - error
+    - code: 120
+      tabWidth: 2
+      comments: 120
+      ignoreUrls: false
+      ignoreStrings: false
+      ignoreTemplateLiterals: false
+      ignoreRegExpLiterals: false
+
+  "@typescript-eslint/no-shadow": off
+  "@typescript-eslint/no-extraneous-class": off
+  "@typescript-eslint/prefer-readonly-parameter-types": off
+  "@typescript-eslint/no-magic-numbers": off
+  "@typescript-eslint/naming-convention":
+      - error
+      - selector: variableLike
+        format: ['strictCamelCase', 'snake_case']
+      - selector: function
+        format: ['strictCamelCase', 'StrictPascalCase']
+      - selector: ['typeLike', 'enumMember']
+        format: ['StrictPascalCase']
+      - selector: objectLiteralProperty
+        filter: {
+          regex: '^(\\d+|[a-zA-Z_$][a-zA-Z_$0-9]*)$',
+          match: true
+        }
+        format: ['camelCase', 'snake_case']
+      - selector: parameter
+        format: ['camelCase', 'snake_case']
+
+  import/prefer-default-export: off
+  import/no-default-export: off
+  import/no-unused-modules: off
+  import/no-cycle: off
+  import/no-unresolved: off
+  import/newline-after-import: off
+
+  unused-imports/no-unused-imports: error

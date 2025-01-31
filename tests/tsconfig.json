@@ -2,11 +2,13 @@
   "compilerOptions": {
     "lib": ["esnext"],
     "jsx": "react",
-    "module": "commonjs",
+    "module": "ESNext",
     "moduleResolution": "node",
     "skipLibCheck": true,
     "target": "esnext"
   },
-  "include": ["modules/*.ts"],
-  "files": ["file.tsx"]
+  "ts-node": {
+    "esm": true
+  },
+  "include": ["modules/*.ts", "./tests/file.tsx"]
 }

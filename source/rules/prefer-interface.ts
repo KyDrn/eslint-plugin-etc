@@ -106,6 +106,7 @@ const rule = ruleCreator({
             : "void";
           return fixer.replaceText(
             typeAliasNode,
+            // eslint-disable-next-line max-len
             `interface ${typeAliasNode.id.name}${interfaceTypeParameters} { ${functionTypeParameters}(${params}): ${returnType}; }`
           );
         }
@@ -127,6 +128,7 @@ const rule = ruleCreator({
         if (allowIntersection) {
           return;
         }
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const { esTreeNodeToTSNodeMap } = getParserServices(context);
         const { typeChecker } = getTypeServices(context);
         const typeAliasNode = getParent(
@@ -237,4 +239,4 @@ const rule = ruleCreator({
   },
 });
 
-export = rule;
+export default rule;

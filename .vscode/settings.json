@@ -1,3 +1,87 @@
 {
-    "typescript.tsdk": "node_modules\\typescript\\lib"
+  "[dockerfile]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  },
+  "codemetrics.basics.Exclude": [
+    "**/*.spec.ts"
+  ],
+  "eslint.format.enable": true,
+  "eslint.probe": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "html",
+    "markdown"
+  ],
+  "files.exclude": {
+    "**/.log": true,
+    "**/.pem": true,
+    "**/*.tsbuildinfo": true,
+    "**/.DS_Store": true,
+    "**/.eslintcache": true,
+    "**/.git": true,
+    "**/.hg": true,
+    "**/.history": true,
+    "**/.idea": true,
+    "**/build": true,
+    "**/coverage": true,
+    "apps/**/dist": true,
+    "dist": true,
+    "**/docker/volumes": true,
+    "**/generated-ci-config.yml": true,
+    "apps/**/node_modules": true,
+    "tools/**/node_modules": true,
+    "**/node_modules": true,
+    ".husky/_": true,
+    "tmp": true,
+    ".pnpm-store": true,
+    "pnpm-lock.yaml": true,
+    "git-crypt-repo.key": true,
+    "yarn.lock": true,
+    "target": true,
+    "node_modules": true,
+    ".vscode": true,
+    ".nx": true,
+    ".pnp.*": true,
+    // ".yarn": true,
+  },
+  "git.rebaseWhenSync": true,
+  "git.useCommitInputAsStashMessage": true,
+  "javascript.format.enable": true,
+  "javascript.preferences.importModuleSpecifier": "relative",
+  "npm.packageManager": "yarn",
+  "vsintellicode.java.completionsEnabled": false,
+  "vsintellicode.python.completionsEnabled": false,
+  "vsintellicode.sql.completionsEnabled": false,
+  "yaml.format.enable": false,
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
+  "typescript.validate.enable": true,
+  "search.exclude": {
+    "**/build": true,
+    "**/dist": true,
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "eslint.nodePath": ".yarn/sdks",
+  "prettier.prettierPath": ".yarn/sdks/prettier/index.js"
 }

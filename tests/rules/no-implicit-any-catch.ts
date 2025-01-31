@@ -5,8 +5,8 @@
 
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/no-implicit-any-catch");
 import { ruleTester } from "../utils";
+import rule from "../../source/rules/no-implicit-any-catch";
 
 ruleTester({ types: true }).run("no-implicit-any-catch", rule, {
   valid: [
@@ -182,7 +182,7 @@ ruleTester({ types: true }).run("no-implicit-any-catch", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -210,7 +210,7 @@ ruleTester({ types: true }).run("no-implicit-any-catch", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -238,7 +238,7 @@ ruleTester({ types: true }).run("no-implicit-any-catch", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -266,7 +266,7 @@ ruleTester({ types: true }).run("no-implicit-any-catch", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -294,7 +294,7 @@ ruleTester({ types: true }).run("no-implicit-any-catch", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -323,7 +323,7 @@ ruleTester({ types: true }).run("no-implicit-any-catch", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -352,7 +352,7 @@ ruleTester({ types: true }).run("no-implicit-any-catch", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -361,7 +361,7 @@ ruleTester({ types: true }).run("no-implicit-any-catch", rule, {
           (error: string) => console.error(error)
            ~~~~~~~~~~~~~ [narrowed]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -370,7 +370,7 @@ ruleTester({ types: true }).run("no-implicit-any-catch", rule, {
           function (error: string) { console.error(error); }
                     ~~~~~~~~~~~~~ [narrowed]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -401,7 +401,7 @@ ruleTester({ types: true }).run("no-implicit-any-catch", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -432,7 +432,7 @@ ruleTester({ types: true }).run("no-implicit-any-catch", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -463,7 +463,7 @@ ruleTester({ types: true }).run("no-implicit-any-catch", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -494,7 +494,7 @@ ruleTester({ types: true }).run("no-implicit-any-catch", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -525,7 +525,7 @@ ruleTester({ types: true }).run("no-implicit-any-catch", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -557,7 +557,7 @@ ruleTester({ types: true }).run("no-implicit-any-catch", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -589,7 +589,7 @@ ruleTester({ types: true }).run("no-implicit-any-catch", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -599,7 +599,7 @@ ruleTester({ types: true }).run("no-implicit-any-catch", rule, {
           (error: string) => console.error(error)
            ~~~~~~~~~~~~~ [narrowed]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -609,7 +609,7 @@ ruleTester({ types: true }).run("no-implicit-any-catch", rule, {
           function (error: string) { console.error(error); }
                     ~~~~~~~~~~~~~ [narrowed]
         );
-      `
+      `,
     ),
   ],
 });

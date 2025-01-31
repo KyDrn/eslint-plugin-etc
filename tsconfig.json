@@ -3,7 +3,7 @@
     "declaration": false,
     "importHelpers": true,
     "lib": ["esnext"],
-    "module": "commonjs",
+    "module": "ESNext",
     "moduleResolution": "node",
     "noEmitHelpers": true,
     "outDir": "build",
@@ -11,7 +11,8 @@
     "skipLibCheck": true,
     "sourceMap": false,
     "strict": true,
-    "target": "es2018"
+    "target": "esnext",
+    "incremental": false,
   },
   "exclude": [],
   "include": ["source/**/*.ts", "tests/**/*.ts"]

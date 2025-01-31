@@ -5,8 +5,8 @@
 
 import { TSESTree as es } from "@typescript-eslint/experimental-utils";
 import { getLoc, getParserServices } from "eslint-etc";
-import * as tsutils from "tsutils";
-import * as ts from "typescript";
+import { includesModifier } from "ts-api-utils";
+import { EnumDeclaration, SyntaxKind } from "typescript";
 import { ruleCreator } from "../utils";
 
 const defaultOptions: readonly {
@@ -39,23 +39,24 @@ const rule = ruleCreator({
   create: (context, unused: typeof defaultOptions) => ({
     TSEnumDeclaration: (node: es.Node) => {
       const [{ allowLocal = false } = {}] = context.options;
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       const { esTreeNodeToTSNodeMap } = getParserServices(context);
       const enumDeclaration = esTreeNodeToTSNodeMap.get(
         node
-      ) as ts.EnumDeclaration;
+      ) as EnumDeclaration;
       if (
         allowLocal &&
-        !tsutils.hasModifier(
+        !includesModifier(
           enumDeclaration.modifiers,
-          ts.SyntaxKind.ExportKeyword
+          SyntaxKind.ExportKeyword
         )
       ) {
         return;
       }
       if (
-        !tsutils.hasModifier(
+        !includesModifier(
           enumDeclaration.modifiers,
-          ts.SyntaxKind.ConstKeyword
+          SyntaxKind.ConstKeyword
         )
       ) {
         return;
@@ -68,4 +69,4 @@ const rule = ruleCreator({
   }),
 });
 
-export = rule;
+export default rule;

@@ -176,4 +176,4 @@ function wrapContent(
   }
 }
 
-export = rule;
+export default rule;

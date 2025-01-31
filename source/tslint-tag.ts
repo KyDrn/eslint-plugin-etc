@@ -15,47 +15,73 @@
  * limitations under the License.
  */
 
-import * as tsutils from "tsutils";
-import * as ts from "typescript";
+import { getAccessKind, isBindingOrAssignmentElementTarget, isSymbolFlagSet } from "ts-api-utils";
+import { 
+  Identifier, 
+  SyntaxKind, 
+  NamedDeclaration, 
+  PropertyAssignment, 
+  ObjectLiteralExpression, 
+  BindingElement, 
+  Declaration, 
+  CallLikeExpression, 
+  Expression, 
+  Signature, 
+  Symbol, 
+  SymbolFlags, 
+  JSDocTagInfo, 
+  TypeChecker, 
+  Node, 
+  isPropertyAccessExpression,
+  isTaggedTemplateExpression,
+  isCallExpression,
+  isNewExpression,
+  isPropertyAssignment,
+  isShorthandPropertyAssignment,
+  isBindingElement,
+  isVariableDeclaration,
+  isVariableDeclarationList
+} from "typescript";
+import { getDeclarationOfBindingElement, getJsDoc } from "./utils";
 
-export function isDeclaration(identifier: ts.Identifier): boolean {
+export function isDeclaration(identifier: Identifier): boolean {
   const parent = identifier.parent;
   switch (parent.kind) {
-    case ts.SyntaxKind.ClassDeclaration:
-    case ts.SyntaxKind.ClassExpression:
-    case ts.SyntaxKind.InterfaceDeclaration:
-    case ts.SyntaxKind.TypeParameter:
-    case ts.SyntaxKind.FunctionExpression:
-    case ts.SyntaxKind.FunctionDeclaration:
-    case ts.SyntaxKind.LabeledStatement:
-    case ts.SyntaxKind.JsxAttribute:
-    case ts.SyntaxKind.MethodDeclaration:
-    case ts.SyntaxKind.MethodSignature:
-    case ts.SyntaxKind.PropertySignature:
-    case ts.SyntaxKind.TypeAliasDeclaration:
-    case ts.SyntaxKind.GetAccessor:
-    case ts.SyntaxKind.SetAccessor:
-    case ts.SyntaxKind.EnumDeclaration:
-    case ts.SyntaxKind.ModuleDeclaration:
+    case SyntaxKind.ClassDeclaration:
+    case SyntaxKind.ClassExpression:
+    case SyntaxKind.InterfaceDeclaration:
+    case SyntaxKind.TypeParameter:
+    case SyntaxKind.FunctionExpression:
+    case SyntaxKind.FunctionDeclaration:
+    case SyntaxKind.LabeledStatement:
+    case SyntaxKind.JsxAttribute:
+    case SyntaxKind.MethodDeclaration:
+    case SyntaxKind.MethodSignature:
+    case SyntaxKind.PropertySignature:
+    case SyntaxKind.TypeAliasDeclaration:
+    case SyntaxKind.GetAccessor:
+    case SyntaxKind.SetAccessor:
+    case SyntaxKind.EnumDeclaration:
+    case SyntaxKind.ModuleDeclaration:
       return true;
-    case ts.SyntaxKind.VariableDeclaration:
-    case ts.SyntaxKind.Parameter:
-    case ts.SyntaxKind.PropertyDeclaration:
-    case ts.SyntaxKind.EnumMember:
-    case ts.SyntaxKind.ImportEqualsDeclaration:
-      return (parent as ts.NamedDeclaration).name === identifier;
-    case ts.SyntaxKind.PropertyAssignment:
+    case SyntaxKind.VariableDeclaration:
+    case SyntaxKind.Parameter:
+    case SyntaxKind.PropertyDeclaration:
+    case SyntaxKind.EnumMember:
+    case SyntaxKind.ImportEqualsDeclaration:
+      return (parent as NamedDeclaration).name === identifier;
+    case SyntaxKind.PropertyAssignment:
       return (
-        (parent as ts.PropertyAssignment).name === identifier &&
-        !tsutils.isReassignmentTarget(
-          identifier.parent.parent as ts.ObjectLiteralExpression
+        (parent as PropertyAssignment).name === identifier &&
+        !isBindingOrAssignmentElementTarget(
+          identifier.parent.parent as ObjectLiteralExpression
         )
       );
-    case ts.SyntaxKind.BindingElement:
+    case SyntaxKind.BindingElement:
       // return true for `b` in `const {a: b} = obj"`
       return (
-        (parent as ts.BindingElement).name === identifier &&
-        (parent as ts.BindingElement).propertyName !== undefined
+        (parent as BindingElement).name === identifier &&
+        (parent as BindingElement).propertyName !== undefined
       );
     default:
       return false;
@@ -63,15 +89,15 @@ export function isDeclaration(identifier: ts.Identifier): boolean {
 }
 
 function getCallExpresion(
-  node: ts.Expression
-): ts.CallLikeExpression | undefined {
+  node: Expression
+): CallLikeExpression | undefined {
   let parent = node.parent;
-  if (tsutils.isPropertyAccessExpression(parent) && parent.name === node) {
+  if (isPropertyAccessExpression(parent) && parent.name === node) {
     node = parent;
     parent = node.parent;
   }
-  return tsutils.isTaggedTemplateExpression(parent) ||
-    ((tsutils.isCallExpression(parent) || tsutils.isNewExpression(parent)) &&
+  return isTaggedTemplateExpression(parent) ||
+    ((isCallExpression(parent) || isNewExpression(parent)) &&
       parent.expression === node)
     ? parent
     : undefined;
@@ -79,8 +105,8 @@ function getCallExpresion(
 
 export function getTags(
   tagName: string,
-  node: ts.Identifier,
-  tc: ts.TypeChecker
+  node: Identifier,
+  tc: TypeChecker
 ): string[] {
   const callExpression = getCallExpresion(node);
   if (callExpression !== undefined) {
@@ -92,15 +118,15 @@ export function getTags(
       return result;
     }
   }
-  let symbol: ts.Symbol | undefined;
+  let symbol: Symbol | undefined;
   const parent = node.parent;
-  if (parent.kind === ts.SyntaxKind.BindingElement) {
+  if (parent.kind === SyntaxKind.BindingElement) {
     symbol = tc.getTypeAtLocation(parent.parent).getProperty(node.text);
   } else if (
-    (tsutils.isPropertyAssignment(parent) && parent.name === node) ||
-    (tsutils.isShorthandPropertyAssignment(parent) &&
+    (isPropertyAssignment(parent) && parent.name === node) ||
+    (isShorthandPropertyAssignment(parent) &&
       parent.name === node &&
-      tsutils.isReassignmentTarget(node))
+      (getAccessKind(node) & 2) !== 0)
   ) {
     symbol = tc.getPropertySymbolOfDestructuringAssignment(node);
   } else {
@@ -109,7 +135,7 @@ export function getTags(
 
   if (
     symbol !== undefined &&
-    tsutils.isSymbolFlagSet(symbol, ts.SymbolFlags.Alias)
+    isSymbolFlagSet(symbol, SymbolFlags.Alias)
   ) {
     symbol = tc.getAliasedSymbol(symbol);
   }
@@ -124,7 +150,7 @@ export function getTags(
   return getSymbolTags(tagName, symbol);
 }
 
-function findTags(tagName: string, tags: ts.JSDocTagInfo[]): string[] {
+function findTags(tagName: string, tags: JSDocTagInfo[]): string[] {
   const result: string[] = [];
   for (const tag of tags) {
     if (tag.name === tagName) {
@@ -142,7 +168,7 @@ function findTags(tagName: string, tags: ts.JSDocTagInfo[]): string[] {
   return result;
 }
 
-function getSymbolTags(tagName: string, symbol: ts.Symbol): string[] {
+function getSymbolTags(tagName: string, symbol: Symbol): string[] {
   if (symbol.getJsDocTags !== undefined) {
     return findTags(tagName, symbol.getJsDocTags());
   }
@@ -150,7 +176,7 @@ function getSymbolTags(tagName: string, symbol: ts.Symbol): string[] {
   return getTagsFromDeclarations(tagName, symbol.declarations);
 }
 
-function getSignatureTags(tagName: string, signature?: ts.Signature): string[] {
+function getSignatureTags(tagName: string, signature?: Signature): string[] {
   if (signature === undefined) {
     return [];
   }
@@ -166,20 +192,20 @@ function getSignatureTags(tagName: string, signature?: ts.Signature): string[] {
 
 function getTagsFromDeclarations(
   tagName: string,
-  declarations?: ts.Declaration[]
+  declarations?: Declaration[]
 ): string[] {
   if (declarations === undefined) {
     return [];
   }
-  let declaration: ts.Node;
+  let declaration: Node;
   for (declaration of declarations) {
-    if (tsutils.isBindingElement(declaration)) {
-      declaration = tsutils.getDeclarationOfBindingElement(declaration);
+    if (isBindingElement(declaration)) {
+      declaration = getDeclarationOfBindingElement(declaration);
     }
-    if (tsutils.isVariableDeclaration(declaration)) {
+    if (isVariableDeclaration(declaration)) {
       declaration = declaration.parent;
     }
-    if (tsutils.isVariableDeclarationList(declaration)) {
+    if (isVariableDeclarationList(declaration)) {
       declaration = declaration.parent;
     }
     const result = getTagsFromDeclaration(tagName, declaration);
@@ -192,10 +218,10 @@ function getTagsFromDeclarations(
 
 export function getTagsFromDeclaration(
   tagName: string,
-  declaration: ts.Node
+  declaration: Node
 ): string[] {
   const result: string[] = [];
-  for (const comment of tsutils.getJsDoc(declaration)) {
+  for (const comment of getJsDoc(declaration)) {
     if (comment.tags === undefined) {
       continue;
     }
@@ -219,15 +245,15 @@ export function getTagsFromDeclaration(
   return result;
 }
 
-function isFunctionOrMethod(declarations?: ts.Declaration[]) {
+function isFunctionOrMethod(declarations?: Declaration[]) {
   if (declarations === undefined || declarations.length === 0) {
     return false;
   }
   switch (declarations[0].kind) {
-    case ts.SyntaxKind.MethodDeclaration:
-    case ts.SyntaxKind.FunctionDeclaration:
-    case ts.SyntaxKind.FunctionExpression:
-    case ts.SyntaxKind.MethodSignature:
+    case SyntaxKind.MethodDeclaration:
+    case SyntaxKind.FunctionDeclaration:
+    case SyntaxKind.FunctionExpression:
+    case SyntaxKind.MethodSignature:
       return true;
     default:
       return false;

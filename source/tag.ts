@@ -4,11 +4,11 @@
  */
 
 import { tsquery } from "@phenomnomnominal/tsquery";
-import * as ts from "typescript";
+import { Program, getJSDocTags, isConstructorDeclaration, Node, Identifier } from "typescript";
 
 export function findTaggedNames(
   tagName: string,
-  program: ts.Program
+  program: Program
 ): Set<string> {
   const taggedNames = new Set<string>();
   program.getSourceFiles().forEach((sourceFile) => {
@@ -17,21 +17,22 @@ export function findTaggedNames(
     }
     const nodes = tsquery(
       sourceFile,
+      // eslint-disable-next-line max-len
       `ClassDeclaration, Constructor, EnumDeclaration, EnumMember, FunctionDeclaration, GetAccessor, InterfaceDeclaration, MethodDeclaration, MethodSignature, PropertyDeclaration, PropertySignature, SetAccessor, TypeAliasDeclaration, VariableDeclaration`
     );
     nodes.forEach((node) => {
-      const tags = ts.getJSDocTags(node);
+      const tags = getJSDocTags(node);
       if (!tags.some((tag) => tag.tagName.text === tagName)) {
         return;
       }
-      if (ts.isConstructorDeclaration(node)) {
+      if (isConstructorDeclaration(node)) {
         const { parent } = node;
         const { name } = parent;
         if (name?.text) {
           taggedNames.add(name.text);
         }
       } else {
-        const { name } = node as ts.Node & { name?: ts.Identifier };
+        const { name } = node as Node & { name?: Identifier };
         if (name?.text) {
           taggedNames.add(name.text);
         }

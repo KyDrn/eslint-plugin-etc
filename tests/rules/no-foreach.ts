@@ -5,8 +5,8 @@
 
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/no-foreach");
 import { ruleTester } from "../utils";
+import rule from "../../source/rules/no-foreach";
 
 ruleTester({ types: true }).run("no-foreach", rule, {
   valid: [
@@ -32,7 +32,7 @@ ruleTester({ types: true }).run("no-foreach", rule, {
         // array literal
         [42].forEach(value => console.log(value));
              ~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -40,7 +40,7 @@ ruleTester({ types: true }).run("no-foreach", rule, {
         const values = [42];
         values.forEach(value => console.log(value));
                ~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -48,7 +48,7 @@ ruleTester({ types: true }).run("no-foreach", rule, {
         function values() { return [42]; }
         values().forEach(value => console.log(value));
                  ~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -56,14 +56,14 @@ ruleTester({ types: true }).run("no-foreach", rule, {
         const instance = { values: [42] };
         instance.values.forEach(value => console.log(value));
                         ~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
         // from
         Array.from([42]).forEach(value => console.log(value));
                          ~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -71,7 +71,7 @@ ruleTester({ types: true }).run("no-foreach", rule, {
         const map = new Map<string, string>();
         map.forEach((value) => console.log(value));
             ~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -79,7 +79,7 @@ ruleTester({ types: true }).run("no-foreach", rule, {
         const set = new Set<string>();
         set.forEach((value) => console.log(value));
             ~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -91,7 +91,7 @@ ruleTester({ types: true }).run("no-foreach", rule, {
         const list = new NodeList();
         list.forEach((node) => console.log(node));
              ~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -102,7 +102,7 @@ ruleTester({ types: true }).run("no-foreach", rule, {
       `,
       {
         options: [{ types: ["Array"] }],
-      }
+      },
     ),
   ],
 });

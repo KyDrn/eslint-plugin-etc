@@ -1,33 +1,43 @@
 {
-  "author": "Nicholas Jamieson <nicholas@cartant.com>",
+  "author": "Kylian Dorne <kylian.dorne@proton.me>",
   "bugs": {
-    "url": "https://github.com/cartant/eslint-plugin-etc/issues"
+    "url": "https://github.com/kydorne/eslint-plugin-etc/issues"
   },
+  "engines": {
+    "node": "=20"
+  },
+  "type": "module",
   "dependencies": {
     "@phenomnomnominal/tsquery": "^5.0.0",
     "@typescript-eslint/experimental-utils": "^5.0.0",
     "eslint-etc": "^5.1.0",
     "requireindex": "~1.2.0",
-    "tslib": "^2.0.0",
-    "tsutils": "^3.0.0"
+    "ts-api-utils": "2.0.0",
+    "tslib": "^2.0.0"
   },
   "description": "More general-purpose ESLint rules",
   "devDependencies": {
-    "@cartant/eslint-config": "^3.0.0",
+    "@commitlint/config-conventional": "19.6.0",
     "@types/common-tags": "^1.8.0",
     "@types/eslint": "^8.0.0",
     "@types/mocha": "^9.0.0",
-    "@types/node": "^18.0.0",
-    "@typescript-eslint/parser": "^5.0.0",
+    "@types/node": "20.17.1",
+    "@typescript-eslint/eslint-plugin": "6.4.1",
+    "@typescript-eslint/parser": "6.4.1",
+    "commitlint": "19.6.1",
     "common-tags": "^1.8.0",
     "eslint": "^8.0.0",
+    "eslint-plugin-import": "2.28.1",
+    "eslint-plugin-prettier": "5.0.0",
+    "eslint-plugin-simple-import-sort": "12.1.1",
+    "eslint-plugin-unused-imports": "4.1.4",
     "husky": "^8.0.0",
     "lint-staged": "^13.0.0",
-    "mocha": "^9.0.0",
-    "prettier": "~2.7.1",
+    "mocha": "^11.0.0",
+    "prettier": "3.3.3",
     "rimraf": "^3.0.0",
-    "ts-node": "^10.0.0",
-    "typescript": "~4.7.4"
+    "ts-node": "10.9.2",
+    "typescript": "5.7.3"
   },
   "files": [
     "dist",
@@ -46,30 +56,31 @@
   },
   "main": "./dist/index.js",
   "name": "eslint-plugin-etc",
-  "optionalDependencies": {},
   "peerDependencies": {
     "eslint": "^8.0.0",
-    "typescript": ">=4.0.0"
+    "typescript": ">=5.0.0"
   },
-  "private": false,
   "publishConfig": {
     "tag": "latest"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cartant/eslint-plugin-etc.git"
+    "url": "https://github.com/kydorne/eslint-plugin-etc.git"
   },
   "scripts": {
+    "clear-deps": "fd --no-ignore-vcs node_modules -x rm -rf && fd --no-ignore-vcs --glob '*' --exclude sdks .yarn -X rm -rf && rm -rf .pnp.*",
     "dist": "yarn run lint && yarn run dist:build",
     "dist:build": "yarn run dist:clean && tsc -p tsconfig-dist.json",
     "dist:clean": "rimraf dist",
     "lint": "eslint source/**/*.ts tests/**/*.ts",
+    "typecheck": "tsc",
     "prepare": "husky install",
     "prepublishOnly": "yarn run test && yarn run dist",
     "prettier": "prettier --write \"./{src,tests}/**/*.{js,json,ts,tsx}\"",
     "prettier:ci": "prettier --check \"./{src,tests}/**/*.{js,json,ts,tsx}\"",
-    "test": "mocha -r ts-node/register -t 5000 tests/**/*.ts",
-    "test:debug": "mocha -r ts-node/register -t 5000 tests/rules/no-t.ts"
+    "test": "mocha",
+    "test:debug": "mocha ts-node --esm --extensions ts,tsx -t 5000 tests/rules/no-t.ts"
   },
-  "version": "2.0.3"
+  "version": "2.0.3",
+  "packageManager": "yarn@4.6.0"
 }

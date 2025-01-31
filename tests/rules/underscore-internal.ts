@@ -5,8 +5,8 @@
 
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/underscore-internal");
 import { ruleTester } from "../utils";
+import rule from "../../source/rules/underscore-internal";
 
 ruleTester({ types: true }).run("underscore-internal", rule, {
   valid: [
@@ -227,7 +227,7 @@ ruleTester({ types: true }).run("underscore-internal", rule, {
          */
         export const SOME_CONSTANT = 0;
                      ~~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -237,7 +237,7 @@ ruleTester({ types: true }).run("underscore-internal", rule, {
          */
         export class SomeClass {}
                      ~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -249,7 +249,7 @@ ruleTester({ types: true }).run("underscore-internal", rule, {
           someMethod() {}
           ~~~~~~~~~~ [forbidden]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -261,7 +261,7 @@ ruleTester({ types: true }).run("underscore-internal", rule, {
           someProperty: unknown;
           ~~~~~~~~~~~~ [forbidden]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -271,7 +271,7 @@ ruleTester({ types: true }).run("underscore-internal", rule, {
          */
         export function someFunction() {}
                         ~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -281,7 +281,7 @@ ruleTester({ types: true }).run("underscore-internal", rule, {
          */
         export enum SomeEnum {}
                     ~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -293,7 +293,7 @@ ruleTester({ types: true }).run("underscore-internal", rule, {
           SOME_MEMBER = 0
           ~~~~~~~~~~~ [forbidden]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -303,7 +303,7 @@ ruleTester({ types: true }).run("underscore-internal", rule, {
          */
         export interface SomeInterface {}
                          ~~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -315,7 +315,7 @@ ruleTester({ types: true }).run("underscore-internal", rule, {
           someMethod(): unknown;
           ~~~~~~~~~~ [forbidden]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -327,7 +327,7 @@ ruleTester({ types: true }).run("underscore-internal", rule, {
           someProperty: unknown;
           ~~~~~~~~~~~~ [forbidden]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -337,7 +337,7 @@ ruleTester({ types: true }).run("underscore-internal", rule, {
          */
         export type SomeType = {};
                     ~~~~~~~~ [forbidden]
-      `
+      `,
     ),
   ],
 });

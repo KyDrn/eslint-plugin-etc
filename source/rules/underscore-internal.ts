@@ -5,7 +5,7 @@
 
 import { TSESTree as es } from "@typescript-eslint/experimental-utils";
 import { findParent, getParserServices, isIdentifier } from "eslint-etc";
-import * as ts from "typescript";
+import { Node } from "typescript";
 import { getTagsFromDeclaration } from "../tslint-tag";
 import { ruleCreator } from "../utils";
 
@@ -27,9 +27,10 @@ const rule = ruleCreator({
   },
   name: "underscore-internal",
   create: (context) => {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const { esTreeNodeToTSNodeMap } = getParserServices(context);
 
-    function checkDeclaration(identifier: es.BindingName, tsNode: ts.Node) {
+    function checkDeclaration(identifier: es.BindingName, tsNode: Node) {
       const tags = getTagsFromDeclaration("internal", tsNode);
       if (tags.length > 0) {
         context.report({
@@ -104,4 +105,4 @@ const rule = ruleCreator({
   },
 });
 
-export = rule;
+export default rule;

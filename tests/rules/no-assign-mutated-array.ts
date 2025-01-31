@@ -5,8 +5,8 @@
 
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/no-assign-mutated-array");
 import { ruleTester } from "../utils";
+import rule from "../../source/rules/no-assign-mutated-array";
 
 ruleTester({ types: true }).run("no-assign-mutated-array", rule, {
   valid: [
@@ -165,7 +165,7 @@ ruleTester({ types: true }).run("no-assign-mutated-array", rule, {
                     ~~~~~~~ [forbidden]
         const d = a.sort((x, y) => x - y);
                     ~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -177,7 +177,7 @@ ruleTester({ types: true }).run("no-assign-mutated-array", rule, {
                     ~~~~~~~ [forbidden]
         const d = a.sort((x, y) => x - y).map(x => x);
                     ~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -190,7 +190,7 @@ ruleTester({ types: true }).run("no-assign-mutated-array", rule, {
               ~~~~~~~ [forbidden]
         b = a.sort((x, y) => x - y);
               ~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -204,7 +204,7 @@ ruleTester({ types: true }).run("no-assign-mutated-array", rule, {
           c: a.sort((x, y) => x - y),
                ~~~~ [forbidden]
         };
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -218,7 +218,7 @@ ruleTester({ types: true }).run("no-assign-mutated-array", rule, {
           a.sort((x, y) => x - y),
             ~~~~ [forbidden]
         ];
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -231,7 +231,7 @@ ruleTester({ types: true }).run("no-assign-mutated-array", rule, {
             ~~~~~~~ [forbidden]
         n(a.sort((x, y) => x - y));
             ~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -250,7 +250,7 @@ ruleTester({ types: true }).run("no-assign-mutated-array", rule, {
           a.sort((x, y) => x - y)
             ~~~~ [forbidden]
         );
-      `
+      `,
     ),
   ],
 });

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /**
  * @license Use of this source code is governed by an MIT-style license that
  * can be found in the LICENSE file at https://github.com/cartant/eslint-plugin-etc
@@ -7,15 +8,16 @@
 
 import { TSESTree as es } from "@typescript-eslint/experimental-utils";
 import { getLoc, getParserServices } from "eslint-etc";
-import * as tsutils from "tsutils";
-import * as ts from "typescript";
+import { Identifier, TypeParameterDeclaration, SignatureDeclaration, isFunctionLike } from "typescript";
 import { ruleCreator } from "../utils";
+import { collectVariableUsage, isSignatureDeclaration, VariableInfo } from "ts-api-utils";
 
 const rule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
       description:
+        // eslint-disable-next-line max-len
         "Forbids type parameters without inference sites and type parameters that don't add type safety to declarations.",
       recommended: false,
     },
@@ -23,6 +25,7 @@ const rule = ruleCreator({
     hasSuggestions: false,
     messages: {
       canReplace:
+        // eslint-disable-next-line max-len
         "Type parameter '{{name}}' is not used to enforce a constraint between types and can be replaced with '{{replacement}}'.",
       cannotInfer:
         "Type parameter '{{name}}' cannot be inferred from any parameter.",
@@ -32,13 +35,14 @@ const rule = ruleCreator({
   },
   name: "no-misused-generics",
   create: (context) => {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const { esTreeNodeToTSNodeMap } = getParserServices(context);
-    let usage: Map<ts.Identifier, tsutils.VariableInfo> | undefined;
+    let usage: Map<Identifier, VariableInfo> | undefined;
 
     function checkSignature(node: es.Node) {
       const tsNode = esTreeNodeToTSNodeMap.get(node);
       if (
-        tsutils.isSignatureDeclaration(tsNode) &&
+        isSignatureDeclaration(tsNode) &&
         tsNode.typeParameters !== undefined
       ) {
         checkTypeParameters(tsNode.typeParameters, tsNode);
@@ -46,15 +50,15 @@ const rule = ruleCreator({
     }
 
     function checkTypeParameters(
-      typeParameters: readonly ts.TypeParameterDeclaration[],
-      signature: ts.SignatureDeclaration
+      typeParameters: readonly TypeParameterDeclaration[],
+      signature: SignatureDeclaration
     ) {
       if (usage === undefined) {
-        usage = tsutils.collectVariableUsage(signature.getSourceFile());
+        usage = collectVariableUsage(signature.getSourceFile());
       }
       outer: for (const typeParameter of typeParameters) {
         let usedInParameters = false;
-        let usedInReturnOrExtends = tsutils.isFunctionWithBody(signature);
+        let usedInReturnOrExtends = isFunctionLike(signature);
         for (const use of usage.get(typeParameter.name)!.uses) {
           if (
             use.location.pos > signature.parameters.pos &&
@@ -97,8 +101,8 @@ const rule = ruleCreator({
     }
 
     function isConstrainedByOtherTypeParameter(
-      current: ts.TypeParameterDeclaration,
-      all: readonly ts.TypeParameterDeclaration[]
+      current: TypeParameterDeclaration,
+      all: readonly TypeParameterDeclaration[]
     ) {
       if (current.constraint === undefined) {
         return false;
@@ -120,8 +124,8 @@ const rule = ruleCreator({
     }
 
     function isUsedInConstraint(
-      use: ts.Identifier,
-      typeParameters: readonly ts.TypeParameterDeclaration[]
+      use: Identifier,
+      typeParameters: readonly TypeParameterDeclaration[]
     ) {
       for (const typeParameter of typeParameters) {
         if (
@@ -153,4 +157,4 @@ const rule = ruleCreator({
   },
 });
 
-export = rule;
+export default rule;

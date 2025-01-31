@@ -5,8 +5,8 @@
 
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/prefer-interface");
 import { ruleTester } from "../utils";
+import rule from "../../source/rules/prefer-interface";
 
 ruleTester({ types: false }).run("prefer-interface", rule, {
   valid: [
@@ -46,7 +46,7 @@ ruleTester({ types: false }).run("prefer-interface", rule, {
         output: stripIndent`
           interface T { length: number; }
         `,
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -58,7 +58,7 @@ ruleTester({ types: false }).run("prefer-interface", rule, {
         output: stripIndent`
           export interface T { length: number; }
         `,
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -75,7 +75,7 @@ ruleTester({ types: false }).run("prefer-interface", rule, {
             width: number;
           }
         `,
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -86,7 +86,7 @@ ruleTester({ types: false }).run("prefer-interface", rule, {
         output: stripIndent`
           interface T { (value: string): string; }
         `,
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -98,7 +98,7 @@ ruleTester({ types: false }).run("prefer-interface", rule, {
         output: stripIndent`
           export interface T { (value: string): string; }
         `,
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -109,7 +109,7 @@ ruleTester({ types: false }).run("prefer-interface", rule, {
         output: stripIndent`
           interface T { (value: unknown): value is string; }
         `,
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -120,7 +120,7 @@ ruleTester({ types: false }).run("prefer-interface", rule, {
         output: stripIndent`
           interface T<V> { value: V; }
         `,
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -137,7 +137,7 @@ ruleTester({ types: false }).run("prefer-interface", rule, {
             right: R;
           }
         `,
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -148,7 +148,7 @@ ruleTester({ types: false }).run("prefer-interface", rule, {
         output: stripIndent`
           interface Identity<T> { (value: T): T; }
         `,
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -159,7 +159,7 @@ ruleTester({ types: false }).run("prefer-interface", rule, {
         output: stripIndent`
           interface Func<Foo> { <Bar>(foo: Foo): Bar; }
         `,
-      }
+      },
     ),
   ],
 });
@@ -201,7 +201,7 @@ ruleTester({ types: true }).run("prefer-interface", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -230,7 +230,7 @@ ruleTester({ types: true }).run("prefer-interface", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -256,7 +256,7 @@ ruleTester({ types: true }).run("prefer-interface", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -282,7 +282,7 @@ ruleTester({ types: true }).run("prefer-interface", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -311,7 +311,7 @@ ruleTester({ types: true }).run("prefer-interface", rule, {
             `,
           },
         ],
-      }
+      },
     ),
   ],
 });

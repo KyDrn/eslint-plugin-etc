@@ -5,8 +5,8 @@
 
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/no-internal");
 import { ruleTester } from "../utils";
+import rule from "../../source/rules/no-internal";
 
 ruleTester({ comments: true, types: true }).run("no-internal", rule, {
   valid: [
@@ -156,7 +156,7 @@ ruleTester({ comments: true, types: true }).run("no-internal", rule, {
         import { InternalInterface } from "./modules/internal";
         let a: InternalInterface;
                ~~~~~~~~~~~~~~~~~ [forbidden { "name": "InternalInterface" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -166,7 +166,7 @@ ruleTester({ comments: true, types: true }).run("no-internal", rule, {
                ~~~~~~~~~~~~~~~~~ [forbidden { "name": "InternalInterface" }]
         let b: InternalInterface;
                ~~~~~~~~~~~~~~~~~ [forbidden { "name": "InternalInterface" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -174,7 +174,7 @@ ruleTester({ comments: true, types: true }).run("no-internal", rule, {
         import { InternalType } from "./modules/internal";
         let a: InternalType;
                ~~~~~~~~~~~~ [forbidden { "name": "InternalType" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -182,7 +182,7 @@ ruleTester({ comments: true, types: true }).run("no-internal", rule, {
         import { InternalClass } from "./modules/internal";
         let a: InternalClass;
                ~~~~~~~~~~~~~ [forbidden { "name": "InternalClass" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -190,7 +190,7 @@ ruleTester({ comments: true, types: true }).run("no-internal", rule, {
         import { InternalClass } from "./modules/internal";
         let a = new InternalClass();
                     ~~~~~~~~~~~~~ [forbidden { "name": "InternalClass" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -198,7 +198,7 @@ ruleTester({ comments: true, types: true }).run("no-internal", rule, {
         import { InternalEnum } from "./modules/internal";
         let a: InternalEnum;
                ~~~~~~~~~~~~ [forbidden { "name": "InternalEnum" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -206,7 +206,7 @@ ruleTester({ comments: true, types: true }).run("no-internal", rule, {
         import { internalVariable } from "./modules/internal";
         let a = internalVariable;
                 ~~~~~~~~~~~~~~~~ [forbidden { "name": "internalVariable" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -214,7 +214,7 @@ ruleTester({ comments: true, types: true }).run("no-internal", rule, {
         import { internalFunction } from "./modules/internal";
         internalFunction();
         ~~~~~~~~~~~~~~~~ [forbidden { "name": "internalFunction" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -225,7 +225,7 @@ ruleTester({ comments: true, types: true }).run("no-internal", rule, {
                       ~~~~~~~~~~~~~~~~ [forbidden { "name": "internalProperty" }]
         a.internalMethod();
           ~~~~~~~~~~~~~~ [forbidden { "name": "internalMethod" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -236,7 +236,7 @@ ruleTester({ comments: true, types: true }).run("no-internal", rule, {
                       ~~~~~~~~~~~~~~~~ [forbidden { "name": "internalProperty" }]
         a.internalMethod();
           ~~~~~~~~~~~~~~ [forbidden { "name": "internalMethod" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -253,7 +253,7 @@ ruleTester({ comments: true, types: true }).run("no-internal", rule, {
           ~~~~~~~~~~~~~~ [forbidden { "name": "internalSetter" }]
         a.internalMethod();
           ~~~~~~~~~~~~~~ [forbidden { "name": "internalMethod" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -262,7 +262,7 @@ ruleTester({ comments: true, types: true }).run("no-internal", rule, {
         let a: SomeInternalEnum;
         a = SomeInternalEnum.InternalMember;
                              ~~~~~~~~~~~~~~ [forbidden { "name": "InternalMember" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -273,7 +273,7 @@ ruleTester({ comments: true, types: true }).run("no-internal", rule, {
         let a: InternalSignatureClass;
         a.internalSignatureMethod("42");
           ~~~~~~~~~~~~~~~~~~~~~~~ [forbidden { "name": "internalSignatureMethod" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -281,7 +281,7 @@ ruleTester({ comments: true, types: true }).run("no-internal", rule, {
         import { internalSignatureFunction } from "./modules/internal";
         internalSignatureFunction("42");
         ~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden { "name": "internalSignatureFunction" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -289,7 +289,7 @@ ruleTester({ comments: true, types: true }).run("no-internal", rule, {
         import { InternalConstructorSignatureClass } from "./modules/internal";
         let a = new InternalConstructorSignatureClass("42");
                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden { "name": "InternalConstructorSignatureClass" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -306,7 +306,7 @@ ruleTester({ comments: true, types: true }).run("no-internal", rule, {
             },
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -323,7 +323,7 @@ ruleTester({ comments: true, types: true }).run("no-internal", rule, {
             },
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -336,7 +336,7 @@ ruleTester({ comments: true, types: true }).run("no-internal", rule, {
         func();
         ~~~~ [forbidden { "comment": "This function is internal", "name": "func" }]
         ~~~~ [forbidden { "comment": "This function is experimental", "name": "func" }]
-      `
+      `,
     ),
   ],
 });

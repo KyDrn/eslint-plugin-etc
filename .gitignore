@@ -1,5 +1,45 @@
-yarn-error.log
-/build
-/dist
-/node_modules
-/temp
+# Node
+node_modules
+
+# Logs
+*.log
+
+# IDE
+.idea
+.history
+
+# Build output
+build
+**/build
+tmp
+out-tsc
+dist
+**/dist
+**/target
+**/.dist
+
+# Husky
+.husky/_
+
+# Environment
+.env
+**/.env
+
+# Testing
+**/coverage
+.pnp
+.pnp.js
+
+#Typescript
+**/*.tsbuildinfo
+
+# Yarn
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+.eslintcache

@@ -5,8 +5,8 @@
 
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/no-commented-out-code");
 import { ruleTester } from "../utils";
+import rule from "../../source/rules/no-commented-out-code";
 
 ruleTester({ types: false }).run("no-commented-out-code", rule, {
   valid: [
@@ -184,14 +184,14 @@ ruleTester({ types: false }).run("no-commented-out-code", rule, {
         // const answer = 54;
         ~~~~~~~~~~~~~~~~~~~~~ [forbidden]
         const answer = 42;
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
         /* const answer = 54; */
         ~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
         const answer = 42;
-      `
+      `,
     ),
     {
       code: stripIndent`
@@ -287,7 +287,7 @@ ruleTester({ types: false }).run("no-commented-out-code", rule, {
           ~~~~~ [forbidden]
           c
         ];
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -298,7 +298,7 @@ ruleTester({ types: false }).run("no-commented-out-code", rule, {
           ~~~~~~~~~~~~~~~~~~~~ [forbidden]
           public c: string;
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -309,7 +309,7 @@ ruleTester({ types: false }).run("no-commented-out-code", rule, {
           ~~~~~ [forbidden]
           c
         } from "outer";
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -320,7 +320,7 @@ ruleTester({ types: false }).run("no-commented-out-code", rule, {
           ~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
           readonly c: string;
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -331,7 +331,7 @@ ruleTester({ types: false }).run("no-commented-out-code", rule, {
           ~~~~~~~~~~ [forbidden]
           c: "c"
         };
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -342,7 +342,7 @@ ruleTester({ types: false }).run("no-commented-out-code", rule, {
           ~~~~~~~~~~~~~ [forbidden]
           c: string
         ) {};
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -353,7 +353,7 @@ ruleTester({ types: false }).run("no-commented-out-code", rule, {
           ~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
           case "c": return c;
         };
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -364,7 +364,7 @@ ruleTester({ types: false }).run("no-commented-out-code", rule, {
           ~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
           readonly c: string;
         };
-      `
+      `,
     ),
   ],
 });
